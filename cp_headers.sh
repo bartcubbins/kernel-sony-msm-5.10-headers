@@ -99,7 +99,7 @@ HEADER_OVERRIDES="\
 cd ../../../..
 
 source build/envsetup.sh
-lunch 50
+lunch aosp_xqes54-ap2a-userdebug
 
 for x in $LINUX_HEADERS; do \
 cp $HEADER_SRC/$x $HEADER_ORI/$x
