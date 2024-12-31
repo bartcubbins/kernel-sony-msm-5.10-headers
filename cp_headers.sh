@@ -98,43 +98,36 @@ HEADER_OVERRIDES="\
 
 cd ../../../..
 
+> out/cp_headers_5.10.log
+
 source build/envsetup.sh
 lunch aosp_xqes54-ap2a-userdebug
 
-for x in $LINUX_HEADERS; do \
-cp $HEADER_SRC/$x $HEADER_ORI/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>out/cp_headers_5.10.log
-done
+process_headers() {
+    local headers=$1
+    local src=$2
+    local dest=$3
 
-for x in $UAPI_HEADERS; do \
-cp $HEADER_SRC/"uapi/"$x $HEADER_ORI/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>>out/cp_headers_5.10.log
-done
+    for x in $headers; do
+        mkdir -p $(dirname "$HEADER_ORI/$dest$x")
+        cp "$HEADER_SRC/$src$x" "$HEADER_ORI/$dest$x"
+        $CLEAN_HEADER -u -v -k "$HEADER_ORI" -d "$HEADER_SAN" "$dest$x" &>> out/cp_headers_5.10.log
+    done
+}
 
-for x in $TECHPACK_AUDIO_UAPI_HEADERS; do \
-cp $HEADER_SRC/"../techpack/audio/include/uapi/audio/"$x $HEADER_ORI/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>>out/cp_headers_5.10.log
-done
+process_headers "$LINUX_HEADERS" "" ""
 
-for x in $TECHPACK_AUDIO_PACK_UAPI_HEADERS; do \
-cp $HEADER_SRC/"../techpack/audio/include/asoc/"$x $HEADER_ORI/audio/linux/mfd/wcd9xxx/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>>out/cp_headers_5.10.log
-done
+process_headers "$UAPI_HEADERS" "uapi/" ""
 
-for x in $TECHPACK_CAMERA_UAPI_HEADERS; do \
-cp $HEADER_SRC/"../techpack/camera/include/uapi/"$x $HEADER_ORI/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>>out/cp_headers_5.10.log
-done
+process_headers "$TECHPACK_AUDIO_UAPI_HEADERS" "../techpack/audio/include/uapi/audio/" ""
 
-for x in $TECHPACK_DISPLAY_UAPI_HEADERS; do \
-cp $HEADER_SRC/"../techpack/display/include/uapi/"$x $HEADER_ORI/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>>out/cp_headers_5.10.log
-done
+process_headers "$TECHPACK_AUDIO_PACK_UAPI_HEADERS" "../techpack/audio/include/asoc/" "audio/linux/mfd/wcd9xxx/"
 
-for x in $TECHPACK_VIDEO_UAPI_HEADERS; do \
-cp $HEADER_SRC/"../techpack/video/driver/vidc/inc/"$x $HEADER_ORI/media/$x
-$CLEAN_HEADER -u -v -k $HEADER_ORI -d $HEADER_SAN $x &>>out/cp_headers_5.10.log
-done
+process_headers "$TECHPACK_CAMERA_UAPI_HEADERS" "../techpack/camera/include/uapi/" ""
+
+process_headers "$TECHPACK_DISPLAY_UAPI_HEADERS" "../techpack/display/include/uapi/" ""
+
+process_headers "$TECHPACK_VIDEO_UAPI_HEADERS" "../techpack/video/driver/vidc/inc/" "media/"
 
 for x in $HEADER_OVERRIDES; do \
 cp $HEADER_ORI/$x $HEADER_SAN/$x
