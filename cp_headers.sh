@@ -44,27 +44,37 @@ UAPI_HEADERS="\
     sound/compress_params.h"
 
 TECHPACK_AUDIO_UAPI_HEADERS="\
+    linux/avtimer.h\
     linux/msm_audio.h\
     linux/msm_audio_aac.h\
+    linux/msm_audio_ac3.h\
+    linux/msm_audio_alac.h\
+    linux/msm_audio_amrnb.h\
     linux/msm_audio_amrwb.h\
     linux/msm_audio_amrwbplus.h\
+    linux/msm_audio_ape.h\
     linux/msm_audio_calibration.h\
+    linux/msm_audio_g711.h\
+    linux/msm_audio_g711_dec.h\
+    linux/msm_audio_mvs.h\
+    linux/msm_audio_qcp.h\
+    linux/msm_audio_sbc.h\
+    linux/msm_audio_voicememo.h\
     linux/msm_audio_wma.h\
     linux/msm_audio_wmapro.h\
+    linux/wcd-spi-ac-params.h\
     sound/audio_compressed_formats.h\
     sound/audio_effects.h\
+    sound/audio_slimslave.h
     sound/devdep_params.h\
     sound/lsm_params.h\
     sound/msmcal-hwdep.h\
     sound/voice_params.h\
     sound/wcd-dsp-glink.h"
 
-TECHPACK_AUDIO_PACK_UAPI_HEADERS="\
-    wcd9320_registers.h\
-    wcd9xxx_registers.h"
-
 TECHPACK_CAMERA_UAPI_HEADERS="\
     camera/media/cam_cpas.h\
+    camera/media/cam_cre.h\
     camera/media/cam_custom.h\
     camera/media/cam_defs.h\
     camera/media/cam_fd.h\
@@ -85,6 +95,7 @@ TECHPACK_CAMERA_UAPI_HEADERS="\
 TECHPACK_DISPLAY_UAPI_HEADERS="\
     display/drm/msm_drm_pp.h\
     display/drm/sde_drm.h\
+    display/hdcp/msm_hdmi_hdcp_mgr.h\
     display/media/mmm_color_fmt.h\
     display/media/msm_sde_rotator.h"
 
@@ -120,8 +131,6 @@ process_headers "$LINUX_HEADERS" "" ""
 process_headers "$UAPI_HEADERS" "uapi/" ""
 
 process_headers "$TECHPACK_AUDIO_UAPI_HEADERS" "../techpack/audio/include/uapi/audio/" ""
-
-process_headers "$TECHPACK_AUDIO_PACK_UAPI_HEADERS" "../techpack/audio/include/asoc/" "audio/linux/mfd/wcd9xxx/"
 
 process_headers "$TECHPACK_CAMERA_UAPI_HEADERS" "../techpack/camera/include/uapi/" ""
 
